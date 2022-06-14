@@ -14,7 +14,10 @@ def main():
 
 	# add some options
 	options = {
-		1 : { 'name' : 'thekraftyman' }
+		1 : {
+			'kwargs' : { 'name' : 'thekraftyman' },
+			'held' : False
+		}
 	}
 
 	# run the loop
@@ -26,8 +29,13 @@ def main():
 
 		# iterate through pressed buttons
 		for button in pad.bound_pressed_buttons:
-			if button in options:
-				pad.call( button, **options[button] )
+			if button in options and 'kwargs' in options[button]:
+                if 'held' in options[button] and options[button]['held']:
+					pad.call( button, **options[button]['kwargs'] )
+					while button in pad.bound_pressed_buttons:
+						sleep(0.05)
+				else:
+					pad.call( button, **options[button]['kwargs'] )
 			else:
 				pad.call( button )
 
