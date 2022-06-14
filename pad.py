@@ -42,19 +42,8 @@ class Keypad:
 		return self._nkeys
 
 	@property
-	def sleep_time( self ):
-		''' return current value for sleep time '''
-		return self._sleep_time
-
-	@property
-	def sleep_time( self, other ):
-		self._sleep_time = float( other )
-
-	@property
-	def state( self ):
-		''' current button press state value int '''
-		self._state = self.get_button_states()
-		return self._state
+	def pressed( self ):
+		return bool( self.state )
 
 	@property
 	def pressed_buttons( self ):
@@ -78,6 +67,21 @@ class Keypad:
 
 		# use inverted binary string to find pressed buttons
 		return [i for i,n in enumerate(inv_bin) if n == '1']
+
+	@property
+	def sleep_time( self ):
+		''' return current value for sleep time '''
+		return self._sleep_time
+
+	@property
+	def sleep_time( self, other ):
+		self._sleep_time = float( other )
+
+	@property
+	def state( self ):
+		''' current button press state value int '''
+		self._state = self.get_button_states()
+		return self._state
 
 	def check_key( self, key_num ):
 		''' check to see if a key num can exist '''

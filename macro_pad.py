@@ -14,12 +14,19 @@ class MacroPad( Keypad ):
 		''' dictionary where key bindings are defined '''
 		return self._bindings
 
-	def bind_key( self, key_num, callback ):
+	@property
+	def bound_pressed_buttons( self ):
+		''' returns a list of buttons that are both pressed and bound to something '''
+		return [ int(key) for key in self._pressed_buttons if self.is_bound( key ) ]
+
+	def bind_key( self, key_num, callback, color=None ):
 		'''
 		Binds a callback function a key to run when the key is pressed
 
 		:arg int key_num: key int val to bind
 		:arg FunctionType callback: function to call when the key is pressed
+		:arg tuple color: a tuple with 3 integers denoting the color of the
+			button (r,g,b) from [0-255]
 		'''
 		# do some error checking
 		assert type( callback ) == FunctionType
@@ -58,3 +65,13 @@ class MacroPad( Keypad ):
 
 		# remove the bound function
 		func = self._bindings.pop( key_num )
+
+	def is_bound( self, key_num ):
+		'''
+		checks to see if a key is bound
+
+		:arg int key_num: key int val to check for binding
+
+		@return bool
+		'''
+		return int(key_num) in self._bindings
