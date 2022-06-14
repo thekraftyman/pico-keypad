@@ -38,6 +38,11 @@ class MacroPad( Keypad ):
 		# bind the key
 		self._bindings[ key_num ] = callback
 
+		# set the color
+		if color:
+			r, g, b = color
+			self.set_color( key_num, r, g, b )
+
 	def call( self, key_num, **kwargs ):
 		'''
 		call a function from the bindings
