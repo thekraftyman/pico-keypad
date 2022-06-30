@@ -1,5 +1,6 @@
 # pad.py
 import picokeypad as pad
+from machine import Pin
 from time import sleep
 
 class Keypad:
@@ -10,6 +11,7 @@ class Keypad:
         :arg float brightness: brightness float for pad [0.0 - 1.0]
         :arg float sleep_time: amount of time to sleep between key color updates
         '''
+        self._board_led = Pin( 25, Pin.OUT )
         self.pad = pad
         self.pad.init()
         self.pad.set_brightness( float(brightness) )
@@ -43,7 +45,12 @@ class Keypad:
 
     @property
     def pressed( self ):
-        return bool( self.state )
+        on = bool( self.state )
+        if on:
+            self._board_led.on()
+        else:
+            self._board_led.off()
+        return on
 
     @property
     def pressed_buttons( self ):
