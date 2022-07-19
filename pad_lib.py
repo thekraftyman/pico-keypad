@@ -69,7 +69,7 @@ class LED:
 # 1b. Key
 class Key:
 
-    def __init__( self, number, pixel_array, expander, rgb=[100,100,100] ):
+    def __init__( self, number, pixel_array, expander, rgb=[10,10,10] ):
         '''
         Represents a key on the keypad. Has an LED
         :param int number: the key number
