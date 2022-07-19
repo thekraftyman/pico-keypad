@@ -1,7 +1,7 @@
 # ducky_engine.py
 
 __author__ = "thekraftyman"
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
 '''
 Ducky engine repo found at:
@@ -125,5 +125,28 @@ class DuckyEngine:
             self.kbd.press( k )
         self.kbd.release_all()
 
+    def run_multiline_string( self, in_str ):
+        # parse for each line
+        split_lines = in_str.split( "\n" )
+        lines = []
+        for line in split_lines:
+            if line:
+                lines.append( line.strip() )
+
+        # run each line
+        previous = ""
+        for line in lines:
+            line = line.rstrip()
+            if line[0:6] == "REPEAT":
+                for i in range( int(line[7:]) ):
+                    # repeat the last command
+                    self.parse_line( previous )
+                    self.sleep()
+            else:
+                self.parse_line( line )
+                previous = line
+            self.sleep()
+
     def sleep( self ):
         time.sleep( float(self.default_delay) / 1000 )
+
