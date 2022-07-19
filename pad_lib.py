@@ -170,8 +170,10 @@ class Pad:
         state = [ int(i) for i in state ]
         if any( state ):
             self._board_led_on()
+            return True
         else:
             self._board_led_off()
+            return False
 
     @property
     def keys( self ):
@@ -198,6 +200,14 @@ class Pad:
         '''
         if not self.valid_key( key_num ):
             raise Exception( f"Key {key_num} not in current key range {range(self._nkeys)}" )
+
+    def set_color( self, key_num, r, g, b ):
+        '''
+        set the rgb value of a key
+        '''
+        key_num = int( key_num )
+        self.check_key( key_num )
+        self.keys[ key_num ].led.set( r, g, b )
 
     def valid_key( self, key_num ):
         '''
@@ -229,7 +239,12 @@ class MacroPad( Pad ):
         '''
         returns a list of buttons that are both pressed and bound to something
         '''
-        pass
+        bound_pressed = []
+        for key_num in self.pressed_keys:
+            if key_num in self._bindings:
+                bound_pressed.append( key_num )
+
+        return bound_pressed
 
     def bind_key( self, key_num, callback, color=None ):
         '''
