@@ -23,7 +23,7 @@ def main():
     # run the loop
     while True:
         # see if any buttons are being pressed
-        if not pad.pressed:
+        if not pad.is_pressed:
             sleep( 0.1 )
             continue
 
